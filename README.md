@@ -1,14 +1,14 @@
 # V13-Select-Menu--ve-Button-Rol-Se-me-Altyap-s-
 Herkesin aradığı Butonla Rol Alma Ve Menülü Rol Seçme Altyapısı İyi günlerde kullanın
 
-ETKİNLİK VE ÇEKİLİŞ KATILIMICISI SEÇİM
+**ETKİNLİK VE ÇEKİLİŞ KATILIMICISI SEÇİM**
 
 ![dgdfgd](https://user-images.githubusercontent.com/104096743/175775375-e0db38a2-4390-474f-ad96-72ee50babb18.PNG)
 
-BUTTONLU ROL SEÇME
+**BUTTONLU ROL SEÇME**
 
 ![çljnhbgv](https://user-images.githubusercontent.com/104096743/175775380-eaef4e10-a834-452e-a86a-d7af2e4751dd.PNG)
 
-ROL SEÇİM MENÜSÜ
+**ROL SEÇİM MENÜSÜ**
 
 ![şlökmjnhbgvfcvgbhnjmk](https://user-images.githubusercontent.com/104096743/175775383-93219081-ee53-4766-a736-02b6778ed501.PNG)
