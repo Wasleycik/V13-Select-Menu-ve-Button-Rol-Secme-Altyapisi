@@ -7,7 +7,7 @@ Desteğe ihtiyacınız olur ise
 
 destek sunucumuz : https://discord.gg/RPxRfU2ZpM
 
-public sunucumuz : https://discord.gg/hesperos
+public sunucumuz : https://discord.gg/hesperos 🥇
 
 **ETKİNLİK VE ÇEKİLİŞ KATILIMICISI SEÇİM**
 
