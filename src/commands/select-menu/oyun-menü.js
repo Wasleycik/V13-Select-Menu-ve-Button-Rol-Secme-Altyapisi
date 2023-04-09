@@ -11,59 +11,29 @@ moment.locale("tr");
     aliases: ["oyuun","oyun-menü"],
 
     execute: async (client, message, args, embed, author, channel, guild) => {
-		if(message.author.id !== "598974473374400512") return;
+		if(message.author.id !== config.bot.owner) return message.channel.send({ embeds: [embed.setDescription(`${message.member}, Bu komutu kullanmak için gerekli yetkiye sahip değilsin!`)] }).then((e) => setTimeout(() => { e.delete(); }, 10000));
 
      message.delete()
-		const menu = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId('menu1')
-					.setPlaceholder('Oyun Rol Seçim.')
-					.addOptions([
-						{
-							label: 'Minecraft',
-							description: 'Minecraft rolünü almak için tıklayın.',
-							value: 'mc',
-						},
-						{
-							label: 'Mobile Legends',
-							description: 'Mobile Legends rolünü almak için tıklayınız.',
-							value: 'mlbb',
-						},
-						{
-							label: 'LoL',
-							description: 'League of Legends rolünü almak için tıklayınız.',
-							value: 'lol',
-						},
-						{
-							label: 'GTA5',
-							description: 'GTA 5 rolünü almak için tıklayınız.',
-							value: 'gta5',
-						},
-						{
-							label: 'Valorant',
-							description: 'Valorant rolünü almak için tıklayınız.',
-							value: 'valo',
-						},
-            {
-							label: 'Among Us',
-							description: 'Among Us rolünü almak için tıklayınız.',
-							value: 'amongus',
-						},
-            {
-							label: 'cs Go',
-							description: 'Cs Go rolünü almak için tıklayınız.',
-							value: 'csgo',
-						},
-            {
-							label: '🧺 Temizle',
-							description: 'Aldığın oyun Rollerini Temizler',
-							value: 'otemizle',
-						},
-					]),
-			);
-
-		const m = await message.channel.send({  content: `Aşağıdaki menüden \`oyun\` rollerinizi Seçebilirsiniz.`,components: [menu] });
-					
-		const collector = m.createMessageComponentCollector({ filter: w=>w.user.id===message.author.id })
+			
+        client.api.channels(message.channel.id).messages.post({
+            data: {
+                "content": `**Oyun Rol :**`,
+                "components": [{
+                    "type": 1, "components": [{
+                        "type": 3, "custom_id": "oyun", "options": [
+                            { "label": "Minecraft", "value": "mc", "emoji": { "name": "🎯" }, },
+                            { "label": "Mobile Legends", "value": "mlbb", "emoji": { "name": "🎯" }, },
+                            { "label": "League Of Legends", "value": "lol", "emoji": { "name": "🎯" }, },
+                            { "label": "Gta 5", "value": "gta5", "emoji": { "name": "🎯" }, },
+                            { "label": "Valorant", "value": "valo", "emoji": { "name": "🎯" }, },
+                            { "label": "Among Us", "value": "amongus", "emoji": { "name": "🎯" }, },
+                            { "label": "Conter Strike Go", "value": "csgo", "emoji": { "name": "🎯" }, },
+                            { "label": "Rol İstemiyorum", "value": "rolsil", "emoji": { "name": "🗑️" }, }
+                        ], "placeholder": "Oyun Rol Al", "min_values": 1, "max_values": 1
+                    }],
+                }
+                ]
+            }
+        })			
 	}}
+
