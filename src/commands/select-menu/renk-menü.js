@@ -1,4 +1,3 @@
-
 const { Client, Intents,Collection, interaction, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const config = require("../../../config.json")
 const db = require('quick.db');
@@ -11,69 +10,30 @@ moment.locale("tr");
     aliases: ["renk-menü"],
 
     execute: async (client, message, args, embed, author, channel, guild) => {
-		if(message.author.id !== "598974473374400512") return;
+		if(message.author.id !== config.bot.owner) return message.channel.send({ embeds: [embed.setDescription(`${message.member}, Bu komutu kullanmak için gerekli yetkiye sahip değilsin!`)] }).then((e) => setTimeout(() => { e.delete(); }, 10000));
 
      message.delete()
-		const menu = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId('menu1')
-					.setPlaceholder('Renk Rol Seçim.')
-					.addOptions([
-						{
-							label: '⚪️ Beyaz',
-							description: 'Beyaz Renk rolünü almak için tıklayın.',
-							value: 'beyaz',
-						},
-						{
-							label: '⚫️ Siyah',
-							description: 'Siyah Renk rolünü almak için tıklayınız.',
-							value: 'siyah',
-						},
-						{
-							label: '🟢 Yeşil',
-							description: 'Yeşil Renk rolünü almak için tıklayınız.',
-							value: 'yeşil',
-						},
-						{
-							label: '🟡 Sarı',
-							description: 'Sarı Renk rolünü almak için tıklayınız.',
-							value: 'sarı',
-						},
-						{
-							label: '🔴 Kırmızı',
-							description: 'Kırmızı Renk rolünü almak için tıklayınız.',
-							value: 'kırmızı',
-						},
-            {
-							label: '🟣 Mor',
-							description: 'Mor Renk rolünü almak için tıklayınız.',
-							value: 'mor',
-						},
-            {
-							label: '🔵 Mavi',
-							description: 'Mavi Renk rolünü almak için tıklayınız.',
-							value: 'mavi',
-						},
-            {
-							label: '🟤 kahverengi',
-							description: 'Kahverengi Renk rolünü almak için tıklayınız.',
-							value: 'kahverengi',
-						},
-            {
-							label: '🟠 Turuncu',
-							description: 'Turuncu Renk rolünü almak için tıklayınız.',
-							value: 'turuncu',
-						},
-            {
-							label: '🧺 Temizle',
-							description: 'Aldığın oyun Rollerini Temizler',
-							value: 'rtemizle',
-						},
-					]),
-			);
-
-		const m = await message.channel.send({  content: `Aşağıdaki menüden \`Renk\` rollerinizi Seçebilirsiniz.`,components: [menu] });
 					
-		const collector = m.createMessageComponentCollector({ filter: w=>w.user.id===message.author.id })
+        client.api.channels(message.channel.id).messages.post({
+            data: {
+                "content": `**Renk Rol :**`,
+                "components": [{
+                    "type": 1, "components": [{
+                        "type": 3, "custom_id": "renk", "options": [
+                            { "label": "Mavi", "value": "mavi", "emoji": { "name": "🔵" }, },
+                            { "label": "Kırmızı", "value": "kırmızı", "emoji": { "name": "🔴" }, },
+                            { "label": "Sarı", "value": "sarı", "emoji": { "name": "🟡" }, },
+                            { "label": "Siyah", "value": "siyah", "emoji": { "name": "🖤" }, },
+                            { "label": "Beyaz", "value": "beyaz", "emoji": { "name": "🤍" }, },
+                            { "label": "Yeşil", "value": "yeşil", "emoji": { "name": "🟢" }, },
+                            { "label": "Mor", "value": "mor", "emoji": { "name": "🟣" }, },
+                            { "label": "Kahverengi", "value": "kahverengi", "emoji": { "name": "🟤" }, },
+                            { "label": "Turuncu", "value": "turuncu", "emoji": { "name": "🟠" }, },
+                            { "label": "Rol İstemiyorum", "value": "rolsil", "emoji": { "name": "🗑️" }, }
+                        ], "placeholder": "Renk Rol Al", "min_values": 1, "max_values": 1
+                    }],
+                }
+                ]
+            }
+        })
 	}}
