@@ -106,18 +106,18 @@ if (!member) return;
 if (interaction.customId === "renk") {
         let color = new Map([
           ["mavi", config.roles.mavi],
-          ["kirmizi", config.roles.kirmizi],
+          ["kirmizi", config.roles.kırmızı],
           ["sarı", config.roles.sarı],
           ["siyah", config.roles.siyah],
           ["beyaz", config.roles.beyaz],
-          ["yesil", config.roles.yesil],
+          ["yesil", config.roles.yeşil],
           ["mor", config.roles.mor],
           ["kahverengi", config.roles.kahverengi],
           ["turuncu", config.roles.turuncu],
   
         ])
         let role = color.get(interaction.values[0])
-        let renkroller = [config.roles.mavi, config.roles.kirmizi, config.roles.sarı, config.roles.siyah, config.roles.beyaz, config.roles.yesil, config.roles.mor, config.roles.kahverengi, config.roles.turuncu]
+        let renkroller = [config.roles.mavi, config.roles.kırmızı, config.roles.sarı, config.roles.siyah, config.roles.beyaz, config.roles.yeşil, config.roles.mor, config.roles.kahverengi, config.roles.turuncu]
         if (!member.roles.cache.has(config.Guild.tagrol) && !member.roles.cache.has(config.Guild.boosterrol) && !member.permissions.has("ADMINISTRATOR")) {
             interaction.reply({ content: "Rollerin güncellenirken bir sorun meydana geldi **(İsminde Sunucu Tag'ı Yoktur veya Boost basmamışsın)**" , ephemeral: true })
         } else {
