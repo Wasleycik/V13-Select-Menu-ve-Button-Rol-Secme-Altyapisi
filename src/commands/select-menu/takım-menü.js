@@ -11,44 +11,25 @@ moment.locale("tr");
     aliases: ["takım-menü"],
 
     execute: async (client, message, args, embed, author, channel, guild) => {
-		if(message.author.id !== "598974473374400512") return;
+		if(message.author.id !== config.bot.owner) return message.channel.send({ embeds: [embed.setDescription(`${message.member}, Bu komutu kullanmak için gerekli yetkiye sahip değilsin!`)] }).then((e) => setTimeout(() => { e.delete(); }, 10000));
 
      message.delete()
-		const menu = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId('menu1')
-					.setPlaceholder('Takım Rol Seçim.')
-					.addOptions([
-						{
-							label: '❤️ GalataSaray ❤️',
-							description: 'GalataSaray rolünü almak için tıklayın.',
-							value: 'gs',
-						},
-						{
-							label: '💛 FenerBahçe 💛',
-							description: 'FenerBahçe rolünü almak için tıklayınız.',
-							value: 'fb',
-						},
-						{
-							label: '🖤 BeşikTaş 🖤',
-							description: 'BeşikTaş rolünü almak için tıklayınız.',
-							value: 'bjk',
-						},
-						{
-							label: '💙 TrabzonSpor 💙',
-							description: 'TrabzonSpor rolünü almak için tıklayınız.',
-							value: 'ts',
-						},
-            {
-							label: '🧺 Temizle',
-							description: 'Aldığın Takım Rollerini Temizler',
-							value: 'ttemizle',
-						},
-					]),
-			);
-
-		const m = await message.channel.send({  content: `Aşağıdaki menüden \`Takım\` rollerinizi Seçebilirsiniz.`,components: [menu] });
 					
-		const collector = m.createMessageComponentCollector({ filter: w=>w.user.id===message.author.id })
+        client.api.channels(message.channel.id).messages.post({
+            data: {
+                "content": `**Takım Rol :**`,
+                "components": [{
+                    "type": 1, "components": [{
+                        "type": 3, "custom_id": "takim", "options": [
+                            { "label": "Galatasaray", "value": "gs", "emoji": { "name": "❤️" }, },
+                            { "label": "Fenerbahçe", "value": "fb", "emoji": { "name": "💛" }, },
+                            { "label": "Beşiktaş", "value": "bjk", "emoji": { "name": "🖤" }, },
+                            { "label": "TrabzonSpor", "value": "ts", "emoji": { "name": "💙" }, },
+                            { "label": "Rol İstemiyorum", "value": "rolsil", "emoji": { "name": "🗑️" }, }
+                        ], "placeholder": "Takım Rol Al", "min_values": 1, "max_values": 1
+                    }],
+                }
+                ]
+            }
+        })
 	}}
