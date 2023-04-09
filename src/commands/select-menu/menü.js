@@ -303,6 +303,10 @@ if (menü.customId === "takimkur") {
         })
         }
 
+if(menü.customId === "iptal") {
+  if(msg) msg.delete().catch({})
+  menü.reply({ content :"Başarıyla İptal Edildi Ve Mesaj Silindi.", ephemeral: true })
+}
 }
 
   
