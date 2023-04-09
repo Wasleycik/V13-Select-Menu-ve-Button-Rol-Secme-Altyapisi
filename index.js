@@ -51,8 +51,137 @@ client.login(config.bot.token)
   .then(() => console.log(`Bot ${client.user.username} olarak giriş yaptı!`))
   .catch((err) => console.log(`Bot Giriş yapamadı sebep: ${err}`));
 
-  client.on("interactionCreate",async (interaction, message) => {
+client.on("interactionCreate", async(interaction) => {
+const member = await client.guilds.cache.get(config.Guild.GuildID).members.fetch(interaction.member.user.id)
+if (!member) return;
 
+      if (interaction.customId === "burc") {
+        let burçMap = new Map([
+            ["koç", config.roles.koç],
+            ["boğa", config.roles.boğa],
+            ["ikizler", config.roles.ikizler],
+            ["yengeç", config.roles.yengeç],
+            ["aslan", config.roles.aslan],
+            ["başak", config.roles.başak],
+            ["terazi", config.roles.terazi],
+            ["akrep", config.roles.akrep],
+            ["yay", config.roles.yay],
+            ["oğlak", config.roles.oğlak],
+            ["kova", config.roles.kova],
+            ["balık", config.roles.balık],
+          ])
+          let roles = [config.roles.koç, config.roles.boğa, config.roles.ikizler, config.roles.yengeç, config.roles.aslan, config.roles.başak, config.roles.terazi, config.roles.akrep, config.roles.yay, config.roles.oğlak, config.roles.kova, config.roles.balık]
+          let role = burçMap.get(interaction.values[0])
+          if (interaction.values[0] === "rolsil") {
+            await member.roles.remove(roles)
+          } else if (role) {
+            if (roles.some(m => member.roles.cache.has(m))) {
+              await member.roles.remove(roles)
+            }
+            await member.roles.add(role)
+          }
+          interaction.reply({ content: "Başarıyla \`Burç\` Rolleriniz düzenlendi.", ephemeral: true })    
+      }
+
+      if (interaction.customId === "iliski") {
+        let iliskiMap = new Map([
+            ["sevgilimvar", config.roles.couple],
+            ["lgbt", config.roles.lgbt],
+            ["sevgilimyok", config.roles.alone],
+            ["sevgiliyapmıyorum", config.roles.sevgiliyapmıyorum],
+          ])
+          let roles = [config.roles.couple, config.roles.alone, config.roles.lgbt, config.roles.sevgiliyapmıyorum]
+          let role = iliskiMap.get(interaction.values[0])
+          if (interaction.values[0] === "rolsil") {
+            await member.roles.remove(roles)
+          } else if (role) {
+            if (roles.some(m => member.roles.cache.has(m))) {
+              await member.roles.remove(roles)
+            }
+            await member.roles.add(role)
+          }
+          interaction.reply({ content: "Başarıyla \`İlişki\` Rolleriniz düzenlendi.", ephemeral: true })    
+      }
+
+if (interaction.customId === "renk") {
+        let color = new Map([
+          ["mavi", config.roles.mavi],
+          ["kirmizi", config.roles.kirmizi],
+          ["sarı", config.roles.sarı],
+          ["siyah", config.roles.siyah],
+          ["beyaz", config.roles.beyaz],
+          ["yesil", config.roles.yesil],
+          ["mor", config.roles.mor],
+          ["kahverengi", config.roles.kahverengi],
+          ["turuncu", config.roles.turuncu],
+  
+        ])
+        let role = color.get(interaction.values[0])
+        let renkroller = [config.roles.mavi, config.roles.kirmizi, config.roles.sarı, config.roles.siyah, config.roles.beyaz, config.roles.yesil, config.roles.mor, config.roles.kahverengi, config.roles.turuncu]
+        if (!member.roles.cache.has(config.Guild.tagrol) && !member.roles.cache.has(config.Guild.boosterrol) && !member.permissions.has("ADMINISTRATOR")) {
+            interaction.reply({ content: "Rollerin güncellenirken bir sorun meydana geldi **(İsminde Sunucu Tag'ı Yoktur veya Boost basmamışsın)**" , ephemeral: true })
+        } else {
+          if (interaction.values[0] === "rolsil") {
+            await member.roles.remove(renkroller)
+          } else if (role) {
+            if (renkroller.some(m => member.roles.cache.has(m))) {
+              await member.roles.remove(renkroller)
+            }
+            await member.roles.add(role)
+          }
+          interaction.reply({ content: "Başarıyla \`Renk\` Rolleriniz düzenlendi.", ephemeral: true })
+        }
+      }
+
+      if (interaction.customId === "takim") {
+        let iliskiMap = new Map([
+            ["gs", config.roles.gs],
+            ["fb", config.roles.fb],
+            ["ts", config.roles.ts],
+            ["bjk", config.roles.bjk],
+          ])
+          let roles = [config.roles.gs, config.roles.ts, config.roles.fb, config.roles.bjk]
+          let role = iliskiMap.get(interaction.values[0])
+          if (interaction.values[0] === "rolsil") {
+            await member.roles.remove(roles)
+          } else if (role) {
+            if (roles.some(m => member.roles.cache.has(m))) {
+              await member.roles.remove(roles)
+            }
+            await member.roles.add(role)
+          }
+          interaction.reply({ content: "Başarıyla \`Takım\` Rolleriniz düzenlendi.", ephemeral: true })    
+      }
+
+    if (interaction.customId === "oyun") {
+        let GameMap = new Map([
+          ["mc", config.roles.minecraft],
+          ["mlbb", config.roles.mlbb],
+          ["lol", config.roles.lol],
+          ["gta5", config.roles.gta5],
+          ["valo", config.roles.valorant],
+          ["amongus", config.roles.amongus],
+          ["csgo", config.roles.csgo],
+        ])
+        let roles = [config.roles.minecraft, config.roles.mlbb, config.roles.lol, config.roles.gta5, config.roles.valorant, config.roles.amongus ,config.roles.csgo]
+        var role = []
+        for (let index = 0; index < interaction.values.length; index++) {
+          let ids = interaction.values[index]
+          let den = GameMap.get(ids)
+          role.push(den)
+        }
+        if (!interaction.values.length) {
+          await member.roles.remove(roles)
+        } else {
+          await member.roles.remove(roles)
+          await member.roles.add(role)
+        } 
+        interaction.reply({ content: "Başarıyla \`Oyun\` Rolleriniz düzenlendi.", ephemeral: true })
+      }
+	
+}) 	
+
+  client.on("interactionCreate",async (interaction, message) => {
     if(interaction.isButton()) {
 
       if(interaction.customId === "etkinlik") {
@@ -178,701 +307,3 @@ if(interaction.customId === "lgbt") {
       };
 
     }})
-
-///////////////////////////////////// OYUN ROL ALMA ////////////////////////////////////////
- 
-
-
-client.on("interactionCreate", async(interaction) => {
-	if(interaction.values && interaction.values[0] == 'mc'){
-			if(!interaction.member.roles.cache.has(config.roles.minecraft)) {
-				await interaction.member.roles.add(config.roles.minecraft).catch(err => {})
-				await interaction.reply({content: `Başarıyla <@&${config.roles.minecraft}> rolünü aldın.`, ephemeral: true})
-			} else {
-				await interaction.member.roles.remove(config.roles.minecraft).catch(err => {})
-			    await interaction.reply({content: `Başarıyla <@&${config.roles.minecraft}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-			}
-	}
-
-	if(interaction.values && interaction.values[0] == 'mlbb'){
-		if(!interaction.member.roles.cache.has(config.roles.mlbb)) {
-			await interaction.member.roles.add(config.roles.mlbb).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.mlbb}> rolünü aldın.`, ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.mlbb).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.mlbb}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'amongus'){
-		if(!interaction.member.roles.cache.has(config.roles.amongus)) {
-			await interaction.member.roles.add(config.roles.amongus).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.amongus}> rolünü aldın.`, ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.amongus).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.amongus}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'csgo'){
-		if(!interaction.member.roles.cache.has(config.roles.csgo)) {
-			await interaction.member.roles.add(config.roles.csgo).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.csgo}> rolünü aldın.`, ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.csgo).catch(err => {})
-			await interaction.reply({content: `Başarıyla <@&${config.roles.csgo}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-			
-		}
-}
-
-
-
-if(interaction.values && interaction.values[0] == 'lol'){
-	if(!interaction.member.roles.cache.has(config.roles.lol)) {
-		await interaction.member.roles.add(config.roles.lol).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.lol}> rolünü aldın.`, ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.lol).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.lol}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'gta5'){
-	if(!interaction.member.roles.cache.has(config.roles.gta5)) {
-		await interaction.member.roles.add(config.roles.gta5).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.gta5}> rolünü aldın.`, ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.gta5).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.gta5}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'valo'){
-	if(!interaction.member.roles.cache.has(config.roles.valorant)) {
-		await interaction.member.roles.add(config.roles.valorant).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.valorant}> rolünü aldın.`, ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.valorant).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.valorant}> rolünü üzerinden kaldırdın.`, ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'otemizle'){
-	if(!interaction.member.roles.cache.has(config.roles.valorant)) {
-		await interaction.member.roles.remove(config.roles.valorant).catch(err => {})
-    await interaction.member.roles.remove(config.roles.gta5).catch(err => {})
-    await interaction.member.roles.remove(config.roles.lol).catch(err => {})
-    await interaction.member.roles.remove(config.roles.csgo).catch(err => {})
-    await interaction.member.roles.remove(config.roles.amongus).catch(err => {})
-    await interaction.member.roles.remove(config.roles.mlbb).catch(err => {})
-    await interaction.member.roles.remove(config.roles.minecraft).catch(err => {})
-		await interaction.reply({content: `Başarıyla <@&${config.roles.valorant}> rolünü aldın.`, ephemeral: true})
-	} 
-}
-	
-})  
-
-///////////////////////////////////// burç ROL ALMA ////////////////////////////////////////
- 
-
-client.on("interactionCreate", async(interaction) => {
-	if(interaction.values && interaction.values[0] == 'koç'){
-	if(!interaction.member.roles.cache.has(config.roles.koç)) {
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.koç).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`koç\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`koç\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			}
-	}
-
-	if(interaction.values && interaction.values[0] == 'boğa'){
-	if(!interaction.member.roles.cache.has(config.roles.boğa)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.boğa).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`boğa\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`boğa\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'ikizler'){
-	if(!interaction.member.roles.cache.has(config.roles.ikizler)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.ikizler).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`ikizler\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`ikizler\` rolünü üzerinden kaldırdın.', ephemeral: true})
-		
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'yengeç'){
-	if(!interaction.member.roles.cache.has(config.roles.yengeç)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.yengeç).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`yengeç\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`yengeç\` rolünü üzerinden kaldırdın.', ephemeral: true})
-		
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'aslan'){
-	if(!interaction.member.roles.cache.has(config.roles.aslan)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.aslan).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`aslan\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`aslan\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'başak'){
-	if(!interaction.member.roles.cache.has(config.roles.başak)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.başak).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`başak\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`başak\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'terazi'){
-	if(!interaction.member.roles.cache.has(config.roles.terazi)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.terazi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`terazi\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`terazi\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'akrep'){
-	if(!interaction.member.roles.cache.has(config.roles.akrep)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.terazi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`akrep\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`akrep\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'yay'){
-	if(!interaction.member.roles.cache.has(config.roles.yay)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.yay).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`yay\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`yay\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'oğlak'){
-	if(!interaction.member.roles.cache.has(config.roles.oğlak)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.oğlak).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`oğlak\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`oğlak\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'kova'){
-	if(!interaction.member.roles.cache.has(config.roles.kova)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.member.roles.add(config.roles.kova).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`kova\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`kova\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'balık'){
-	if(!interaction.member.roles.cache.has(config.roles.balık)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-		await interaction.member.roles.add(config.roles.balık).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`balık\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`balık\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'btemizle'){
-	if(!interaction.member.roles.cache.has(config.roles.balık)) {
-    await interaction.member.roles.remove(config.roles.koç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.boğa).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ikizler).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yengeç).catch(err => {})
-    await interaction.member.roles.remove(config.roles.aslan).catch(err => {})
-    await interaction.member.roles.remove(config.roles.başak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.terazi).catch(err => {})
-    await interaction.member.roles.remove(config.roles.akrep).catch(err => {})
-    await interaction.member.roles.remove(config.roles.yay).catch(err => {})
-    await interaction.member.roles.remove(config.roles.oğlak).catch(err => {})
-    await interaction.member.roles.remove(config.roles.kova).catch(err => {})
-		await interaction.member.roles.remove(config.roles.balık).catch(err => {})
-		await interaction.reply({content: 'Başarıyla Burç Rollerin temizlendi', ephemeral: true})
-	} 
-}
-	
-})  
-
-  ///////////////////////////////////// ILISKI ROL ALMA ////////////////////////////////////////
-
-
-
-client.on("interactionCreate", async(interaction) => {
-	if(interaction.values && interaction.values[0] == 'lovers'){
-			if(!interaction.member.roles.cache.has(config.roles.couple)) {
-        await interaction.member.roles.remove(config.roles.lgbt).catch(err => {})
-        await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sevgiliyapmıyorum).catch(err => {})
-				await interaction.member.roles.add(config.roles.couple).catch(err => {})
-				await interaction.reply({content: 'Başarıyla \`Lovers\` rolünü aldın.', ephemeral: true})
-			} else {
-				await interaction.member.roles.remove(config.roles.couple).catch(err => {})
-			    await interaction.reply({content: 'Başarıyla \`Lovers\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			}
-	}
-
-	if(interaction.values && interaction.values[0] == 'lgbt'){
-		if(!interaction.member.roles.cache.has(config.roles.lgbt)) {
-      await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-      await interaction.member.roles.remove(config.roles.couple).catch(err => {})
-      await interaction.member.roles.remove(config.roles.sevgiliyapmıyorum).catch(err => {})
-			await interaction.member.roles.add(config.roles.lgbt).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`LGBT\` rolünü aldın.', ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.lgbt).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`LGBT\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'alone'){
-	if(!interaction.member.roles.cache.has(config.roles.alone)) {
-    await interaction.member.roles.remove(config.roles.lgbt).catch(err => {})
-    await interaction.member.roles.remove(config.roles.couple).catch(err => {})
-    await interaction.member.roles.remove(config.roles.sevgiliyapmıyorum).catch(err => {})
-		await interaction.member.roles.add(config.roles.alone).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Alone\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Alone\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'sevgiliyapmıyorum'){
-	if(!interaction.member.roles.cache.has(config.roles.sevgiliyapmıyorum)) {
-    await interaction.member.roles.remove(config.roles.lgbt).catch(err => {})
-    await interaction.member.roles.remove(config.roles.couple).catch(err => {})
-     await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-		await interaction.member.roles.add(config.roles.sevgiliyapmıyorum).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`sevgiliyapmıyorum\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`sevgiliyapmıyorum\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'itemizle'){
-	if(!interaction.member.roles.cache.has(config.roles.sevgiliyapmıyorum)) {
-    await interaction.member.roles.remove(config.roles.lgbt).catch(err => {})
-    await interaction.member.roles.remove(config.roles.couple).catch(err => {})
-     await interaction.member.roles.remove(config.roles.alone).catch(err => {})
-		await interaction.member.roles.remove(config.roles.sevgiliyapmıyorum).catch(err => {})
-		await interaction.reply({content: 'Başarıyla Rollerin temizlendi', ephemeral: true})
-	}
-}
-	
-})  
- ///////////////////////////////////// Takım ROL ALMA ////////////////////////////////////////
-
-
-
-client.on("interactionCreate", async(interaction) => {
-	if(interaction.values && interaction.values[0] == 'gs'){
-			if(!interaction.member.roles.cache.has(config.roles.gs)) {
-        await interaction.member.roles.remove(config.roles.ts).catch(err => {})
-        await interaction.member.roles.remove(config.roles.fb).catch(err => {})
-        await interaction.member.roles.remove(config.roles.bjk).catch(err => {})
-				await interaction.member.roles.add(config.roles.gs).catch(err => {})
-				await interaction.reply({content: 'Başarıyla \`GalataSaray\` rolünü aldın.', ephemeral: true})
-			} else {
-				await interaction.member.roles.remove(config.roles.gs).catch(err => {})
-			    await interaction.reply({content: 'Başarıyla \`GalataSaray\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			}
-	}
-
-	if(interaction.values && interaction.values[0] == 'fb'){
-		if(!interaction.member.roles.cache.has(config.roles.fb)) {
-      await interaction.member.roles.remove(config.roles.bjk).catch(err => {})
-      await interaction.member.roles.remove(config.roles.gs).catch(err => {})
-      await interaction.member.roles.remove(config.roles.ts).catch(err => {})
-			await interaction.member.roles.add(config.roles.fb).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`FenerBahçe\` rolünü aldın.', ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.fb).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`FenerBahçe\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'bjk'){
-	if(!interaction.member.roles.cache.has(config.roles.bjk)) {
-    await interaction.member.roles.remove(config.roles.ts).catch(err => {})
-    await interaction.member.roles.remove(config.roles.fb).catch(err => {})
-    await interaction.member.roles.remove(config.roles.gs).catch(err => {})
-		await interaction.member.roles.add(config.roles.bjk).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`BeşikTaş\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.bjk).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`BeşikTaş\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'ts'){
-	if(!interaction.member.roles.cache.has(config.roles.ts)) {
-    await interaction.member.roles.remove(config.roles.gs).catch(err => {})
-    await interaction.member.roles.remove(config.roles.fb).catch(err => {})
-     await interaction.member.roles.remove(config.roles.bjk).catch(err => {})
-		await interaction.member.roles.add(config.roles.ts).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`TrabzonSpor\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.ts).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`TrabzonSpor\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'ttemizle'){
-
-    await interaction.member.roles.remove(config.roles.fb).catch(err => {})
-    await interaction.member.roles.remove(config.roles.ts).catch(err => {})
-     await interaction.member.roles.remove(config.roles.bjk).catch(err => {})
-		await interaction.member.roles.remove(config.roles.gs).catch(err => {})
-		await interaction.reply({content: 'Başarıyla Rollerin temizlendi', ephemeral: true})
-	}
-
-	
-})  
-
-///////////////////////////////////// Takım ROL ALMA ////////////////////////////////////////
-
-
-
-client.on("interactionCreate", async(interaction) => {
-	if(interaction.values && interaction.values[0] == 'beyaz'){
-			if(!interaction.member.roles.cache.has(config.roles.beyaz)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-				await interaction.member.roles.add(config.roles.beyaz).catch(err => {})
-				await interaction.reply({content: 'Başarıyla \`Beyaz\` rolünü aldın.', ephemeral: true})
-			} else {
-				await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-			    await interaction.reply({content: 'Başarıyla \`Beyaz\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			}
-	}
-
-	if(interaction.values && interaction.values[0] == 'siyah'){
-		if(!interaction.member.roles.cache.has(config.roles.siyah)) {
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-			await interaction.member.roles.add(config.roles.siyah).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`Siyah\` rolünü aldın.', ephemeral: true})
-		} else {
-			await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-			await interaction.reply({content: 'Başarıyla \`Siyah\` rolünü üzerinden kaldırdın.', ephemeral: true})
-			
-		}
-}
-
-if(interaction.values && interaction.values[0] == 'yeşil'){
-	if(!interaction.member.roles.cache.has(config.roles.yeşil)) {
-await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.yeşil).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Yeşil\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Yeşil\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'sarı'){
-	if(!interaction.member.roles.cache.has(config.roles.sarı)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.sarı).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Sarı\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Sarı\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-if(interaction.values && interaction.values[0] == 'kırmızı'){
-	if(!interaction.member.roles.cache.has(config.roles.kırmızı)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.kırmızı).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Kırmızı\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Kırmızı\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'mor'){
-	if(!interaction.member.roles.cache.has(config.roles.mor)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.mor).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Mor\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Mor\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-if(interaction.values && interaction.values[0] == 'mavi'){
-	if(!interaction.member.roles.cache.has(config.roles.mavi)) {
-         await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.mavi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Mavi\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Mavi\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'kahverengi'){
-	if(!interaction.member.roles.cache.has(config.roles.kahverengi)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.member.roles.add(config.roles.kahverengi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Kahverengi\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Kahverengi\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'turuncu'){
-	if(!interaction.member.roles.cache.has(config.roles.turuncu)) {
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-		await interaction.member.roles.add(config.roles.turuncu).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Turuncu\` rolünü aldın.', ephemeral: true})
-	} else {
-		await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-		await interaction.reply({content: 'Başarıyla \`Turuncu\` rolünü üzerinden kaldırdın.', ephemeral: true})
-	}
-}
-
-if(interaction.values && interaction.values[0] == 'rtemizle'){
-
-        await interaction.member.roles.remove(config.roles.siyah).catch(err => {})
-        await interaction.member.roles.remove(config.roles.yeşil).catch(err => {})
-        await interaction.member.roles.remove(config.roles.beyaz).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kırmızı).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mor).catch(err => {})
-        await interaction.member.roles.remove(config.roles.mavi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.kahverengi).catch(err => {})
-        await interaction.member.roles.remove(config.roles.turuncu).catch(err => {})
-        await interaction.member.roles.remove(config.roles.sarı).catch(err => {})
-
-		await interaction.reply({content: 'Başarıyla Rollerin temizlendi', ephemeral: true})
-	}
-
-	
-})  
-///////////////////////////////////////////////////////////////    /////////////////////////////////////////////////////////////////////////////////
