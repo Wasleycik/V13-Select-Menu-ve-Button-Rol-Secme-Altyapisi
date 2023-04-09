@@ -5,9 +5,7 @@ sizin sunucunuzda olmayan bir rol vb ley varsa o kısımları boş bırakın sor
 
 Desteğe ihtiyacınız olur ise 
 
-destek sunucumuz : https://discord.gg/RPxRfU2ZpM
-
-public sunucumuz : https://discord.gg/hesperos 🥇
+🥇 destek sunucumuz : https://discord.gg/HehFQ7Qcub
 
 **ETKİNLİK VE ÇEKİLİŞ KATILIMICISI SEÇİM**
 
